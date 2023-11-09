@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Über mich</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-color 0.5s, color 0.5s, font-size 0.5s;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            border-radius: 20px;
+            position: relative;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .accordion {
+            background-color: #ddd;
+            color: #333;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 18px;
+            transition: 0.4s;
+            margin-bottom: 10px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+        .panel {
+            padding: 0 18px;
+            background-color: #f1f1f1;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .footer {
+            background-color: #808080;
+            color: #fff;
+            width: 100%;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            border-radius: 20px;
+        }
+        .switch-container {
+            position: fixed;
+            bottom: 80px;
+            border-radius: 20px;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        .settings-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 50%;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s;
+        }
+        .settings-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: #f1f1f1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            transition: transform 0.5s;
+        }
+        input[type="range"] {
+            width: 100%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Über Mich</h1>
+        <button class="accordion">Meine Hobbys</button>
+        <div class="panel">
+            <p style="color: #ff5733;">Ich interessiere mich für Malerei, Fotografie und Wandern.</p>
+        </div>
+
+        <button class="accordion">Meine Erfahrungen</button>
+        <div class="panel">
+            <p style="color: #33ff57;">Ich habe Erfahrung in der Webentwicklung und im Design.</p>
+        </div>
+
+        <button class="accordion">Meine Ziele</button>
+        <div class="panel">
+            <p style="color: #5733ff;">Mein Ziel ist es, eine kreative und inspirierende Online-Präsenz aufzubauen.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Kontakt: email@example.com | Telefon: 123456789</p>
+    </div>
+
+    <div class="settings-icon" onclick="toggleSettings()">
+        ⚙️
+    </div>
+
+    <div class="settings-container" id="settingsContainer">
+        <h2>Einstellungen</h2>
+        <label for="textSizeRange">Textgröße:</label>
+        <input type="range" min="12" max="36" value="16" id="textSizeRange" oninput="adjustTextSize(this.value)">
+        <br><br>
+        <label for="textColorPicker">Textfarbe wählen:</label>
+        <input type="color" id="textColorPicker" onchange="changeTextColor(this.value)">
+        <br><br>
+        <label for="modeSelect">Modus wählen:</label>
+        <select id="modeSelect" onchange="changeMode(this.value)">
+            <option value="light">Hell</option>
+            <option value="dark">Dunkel</option>
+        </select>
+    </div>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight){
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+            });
+        }
+
+        var settingsContainer = document.getElementById('settingsContainer');
+        var isSettingsOpen = false;
+
+        function toggleSettings() {
+            if (isSettingsOpen) {
+                settingsContainer.style.transform = 'translate(-50%, -50%) scale(0)';
+            } else {
+                settingsContainer.style.display = 'block';
+                settingsContainer.style.transform = 'translate(-50%, -50%) scale(1)';
+            }
+            isSettingsOpen = !isSettingsOpen;
+        }
+
+        function adjustTextSize(value) {
+            document.body.style.fontSize = value + 'px';
+        }
+
+        function changeTextColor(value) {
+            var paragraphs = document.getElementsByTagName('p');
+            for (var i = 0; i < paragraphs.length; i++) {
+                paragraphs[i].style.color = value;
+            }
+        }
+
+        function changeMode(value) {
+            if (value === 'light') {
+                document.body.style.backgroundColor = '#f9f9f9';
+                document.body.style.color = '#333';
+            } else if (value === 'dark') {
+                document.body.style.backgroundColor = '#444';
+                document.body.style.color = '#fff';
+            }
+        }
+        const settingsIcon = document.querySelector('.settings-icon');
+        settingsIcon.addEventListener('click', () => {
+            settingsIcon.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+                settingsIcon.style.transform = 'rotate(0deg)';
+            }, 500);
+        });
+    </script>
+
+</body>
+</html>
